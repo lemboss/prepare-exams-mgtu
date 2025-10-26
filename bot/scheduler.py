@@ -1,7 +1,7 @@
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 
-from .handlers.notifications import notify_send_report
+from .handlers.notifications import notify_send_report, notify_morning
 
 scheduler = AsyncIOScheduler(timezone="Europe/Moscow")
 
@@ -15,6 +15,11 @@ def start_scheduler(bg_manager, bot, chat_id):
     scheduler.add_job(
         notify_send_report, 
         CronTrigger(hour=22),
+        kwargs={"bg_manager": manager})
+    
+    scheduler.add_job(
+        notify_morning, 
+        CronTrigger(hour=8),
         kwargs={"bg_manager": manager})
     
     scheduler.start()
