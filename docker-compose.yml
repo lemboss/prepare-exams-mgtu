@@ -1,0 +1,24 @@
+services:
+  db-prepare-mgtu:
+    image: postgres:15-alpine
+    container_name: db-prepare-mgtu
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+    ports:
+      - 5430:5432
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+
+  tgbot-prepare-mgtu:
+    depends_on:
+      - db-prepare-mgtu
+    image: tgbot--prepare-mgtu
+    build:
+      context: .
+    container_name: tgbot--prepare-mgtu
+    env_file:
+      - .env
+    command: bash -c "alembic upgrade head && python -m bot"
+    restart: always
