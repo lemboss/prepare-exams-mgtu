@@ -22,3 +22,5 @@ services:
       - .env
     command: bash -c "alembic upgrade head && python -m bot"
     restart: always
+    volumes:
+      - ./logs:/prepare_mgtu/logs
