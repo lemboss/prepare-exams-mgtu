@@ -14,12 +14,12 @@ def start_scheduler(bg_manager, bot, chat_id):
     
     scheduler.add_job(
         notify_send_report, 
-        CronTrigger(hour=22),
+        CronTrigger(hour=19),
         kwargs={"bg_manager": manager})
     
     scheduler.add_job(
         notify_morning, 
-        CronTrigger(hour=8),
+        CronTrigger(hour=5),
         kwargs={"bg_manager": manager})
     
     scheduler.start()
